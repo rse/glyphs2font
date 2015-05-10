@@ -13,7 +13,7 @@ SVG Glyph Icons to Web Font Generation
 About
 -----
 
-Glypth2Font is a small command-line utility for converting
+Glyphs2Font is a small command-line utility for converting
 one or more SVG-based icons into the glyphs of a Web font.
 The generated Web font is provided in TTF, EOF, WOFF and SVG formats
 and a corresponding CSS file for direct embedding is generated, too.
