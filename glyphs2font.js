@@ -25,6 +25,7 @@
 
 /*  external reqirements  */
 var fs               = require("fs")
+var path             = require("path")
 var jsyaml           = require("js-yaml")
 var tmp              = require("tmp")
 var svgicons2svgfont = require("svgicons2svgfont")
@@ -45,6 +46,33 @@ if (!fs.existsSync(cfgfile)) {
 }
 var cfg = jsyaml.load(fs.readFileSync(cfgfile, "utf8"))
 
+/*  helper function for generating relative path from CWD to target over base  */
+var cwdto = function (target, base) {
+    var rel = path.relative(
+        process.cwd(),
+        path.join(
+            path.resolve(
+                path.dirname(base),
+                path.dirname(target)
+            ),
+            path.basename(target)
+        )
+    )
+    return rel
+}
+
+/*  helper function for generating relative path from base to target  */
+var relto = function (target, base) {
+    var rel = path.join(
+        path.relative(
+            path.dirname(base),
+            path.dirname(target)
+        ),
+        path.basename(target)
+    )
+    return rel
+}
+
 /*  generate SVG font  */
 var svgtmp = null
 var svgfile = cfg.font.svg
@@ -57,7 +85,7 @@ cfg.glyphs.forEach(function (glyph) {
     glyphs.push({
         name:      glyph.name,
         codepoint: glyph.code,
-        stream:    fs.createReadStream(glyph.glyph)
+        stream:    fs.createReadStream(cwdto(glyph.glyph, cfgfile))
     })
 })
 svgicons2svgfont(glyphs, {
@@ -70,7 +98,7 @@ svgicons2svgfont(glyphs, {
     fixedWidth:         cfg.font.fixedwidth,
     log:                function () {},
     error:              function (err) { console.log("** ERROR: " + err) }
-}).pipe(fs.createWriteStream(svgfile)).on("finish", function () {
+}).pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function () {
 
     /*  generate TTF font  */
     var ttftmp = null
@@ -80,18 +108,18 @@ svgicons2svgfont(glyphs, {
         ttffile = ttftmp.name
     }
     var ttf = svg2ttf(fs.readFileSync(svgfile, "utf8"), {})
-    fs.writeFileSync(ttffile, new Buffer(ttf.buffer))
+    fs.writeFileSync(cwdto(ttffile, cfgfile), new Buffer(ttf.buffer))
 
     /*  generate EOT font  */
     if (cfg.font.eot) {
         var eot = ttf2eot(new Uint8Array(fs.readFileSync(ttffile)), {})
-        fs.writeFileSync(cfg.font.eot, new Buffer(eot.buffer))
+        fs.writeFileSync(cwdto(cfg.font.eot, cfgfile), new Buffer(eot.buffer))
     }
 
     /*  generate WOFF font  */
     if (cfg.font.woff) {
         var woff = ttf2woff(new Uint8Array(fs.readFileSync(ttffile)), {})
-        fs.writeFileSync(cfg.font.woff, new Buffer(woff.buffer))
+        fs.writeFileSync(cwdto(cfg.font.woff, cfgfile), new Buffer(woff.buffer))
     }
 
     /*  generate CSS stylesheet  */
@@ -106,15 +134,15 @@ svgicons2svgfont(glyphs, {
         css += "    font-family:     \"" + cfg.font.name + "\";\n"
         var src = []
         if (cfg.font.eot)
-            src.push("url(\"" + cfg.font.eot + "?#iefix\") format(\"embedded-opentype\")")
+            src.push("url(\"" + relto(cfg.font.eot, cfg.font.css) + "?#iefix\") format(\"embedded-opentype\")")
         if (cfg.font.woff)
-            src.push("url(\"" + cfg.font.woff + "\") format(\"woff\")")
+            src.push("url(\"" + relto(cfg.font.woff, cfg.font.css) + "\") format(\"woff\")")
         if (cfg.font.svg)
-            src.push("url(\"" + cfg.font.svg + "\") format(\"svg\")")
+            src.push("url(\"" + relto(cfg.font.svg, cfg.font.css) + "\") format(\"svg\")")
         if (cfg.font.ttf)
-            src.push("url(\"" + cfg.font.ttf + "\") format(\"truetype\")")
+            src.push("url(\"" + relto(cfg.font.ttf, cfg.font.css) + "\") format(\"truetype\")")
         if (cfg.font.eot) {
-            css += "    src:             url(\"" + cfg.font.eot + "\");\n"
+            css += "    src:             url(\"" + relto(cfg.font.eot, cfg.font.css) + "\");\n"
             src.unshift("local(\"*\")")
         }
         css += "    src:             " + src.join(",\n                     ") + ";\n"
@@ -149,7 +177,7 @@ svgicons2svgfont(glyphs, {
             css += "}\n"
         })
         css += "\n"
-        fs.writeFileSync(cfg.font.css, css, "utf8")
+        fs.writeFileSync(cwdto(cfg.font.css, cfgfile), css, "utf8")
     }
 
     /*  generate HTML sample  */
@@ -166,7 +194,7 @@ svgicons2svgfont(glyphs, {
         html += "            .sample .icon i    { width: 20%;  display: inline-block; color: #cc3333; }\n"
         html += "            .sample .icon span { width: auto; display: inline-block; }\n"
         html += "        </style>\n"
-        html += "        <link href=\"" + cfg.font.css + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"
+        html += "        <link href=\"" + relto(cfg.font.css, cfg.font.html) + "\" rel=\"stylesheet\" type=\"text/css\"/>\n"
         html += "    </head>\n"
         html += "    <body>\n"
         html += "        <h1>" + cfg.font.name + "</h1>\n"
@@ -180,7 +208,7 @@ svgicons2svgfont(glyphs, {
         html += "        </div>\n"
         html += "    </body>\n"
         html += "</html>\n"
-        fs.writeFileSync(cfg.font.html, html, "utf8")
+        fs.writeFileSync(cwdto(cfg.font.html, cfgfile), html, "utf8")
     }
 })
 
