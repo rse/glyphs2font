@@ -1,0 +1,47 @@
+
+@font-face {
+    font-family:     "example";
+    src:             url("example-font.eot");
+    src:             local("*"),
+                     url("example-font.eot?#iefix") format("embedded-opentype"),
+                     url("example-font.woff") format("woff"),
+                     url("example-font.svg") format("svg"),
+                     url("example-font.ttf") format("truetype");
+    font-style:      normal;
+    font-weight:     normal;
+    font-stretch:    normal;
+    font-variant:    normal;
+}
+
+[class^="example-"]:before,
+[class*=" example-"]:before {
+    font-family:     "example";
+    font-style:      normal;
+    font-weight:     normal;
+    font-stretch:    normal;
+    font-variant:    normal;
+    font-size:       inherit;
+    text-rendering:  auto;
+    display:         inline-block;
+    transform:       translate(0, 0);
+    speak:           none;
+    text-decoration: inherit;
+    text-align:      center;
+    text-transform:  none;
+    -webkit-font-smoothing:  antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.example-success:before {
+    content:         "\e001";
+}
+.example-failure:before {
+    content:         "\e002";
+}
+.example-plus:before {
+    content:         "\e003";
+}
+.example-minus:before {
+    content:         "\e004";
+}
+
