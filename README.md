@@ -1,6 +1,6 @@
 
-glyphs2font
-===========
+[glyphs2font](https://www.npmjs.com/package/glyphs2font)
+========================================================
 
 SVG Glyph Icons to Web Font Generation
 
