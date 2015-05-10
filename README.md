@@ -89,19 +89,14 @@ The internal conversion process works as following:
 
 1. the SVG icons are converted into an SVG font with the help of
    [svgicons2svgfont](https://www.npmjs.com/package/svgicons2svgfont).
-
 2. the SVG font is converted into TrueType Font (TTF) format
    with the help of [svg2ttf](https://www.npmjs.com/package/svg2ttf).
-
 3. the TTF format is converted into Embedded OpenType (EOT)
    format with the help of [ttf2eot](https://www.npmjs.com/package/ttf2eot).
-
 4. the TTF format is converted into Web Open Font Format (WOFF)
    with the help of [ttf2woff](https://www.npmjs.com/package/ttf2woff).
-
 5. the Cascading Style Sheet (CSS) is generated for embedding
    the font directly into HTML pages.
-
 6. the HyperText Markup Language (HTML) sample page is
    generated for showcasing the generated font.
 
