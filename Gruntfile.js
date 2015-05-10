@@ -31,7 +31,7 @@ module.exports = function (grunt) {
                 jshintrc: "jshint.json"
             },
             "gruntfile":  [ "Gruntfile.js" ],
-            "gdo": [ "src/**/*.js", "tst/**/*.js" ]
+            "glyphs2font": [ "glyphs2font.js" ]
         },
         clean: {
             clean: [],
