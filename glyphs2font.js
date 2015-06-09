@@ -80,15 +80,7 @@ if (!svgfile) {
     svgtmp = tmp.fileSync()
     svgfile = svgtmp.name
 }
-var glyphs = []
-cfg.glyphs.forEach(function (glyph) {
-    glyphs.push({
-        name:      glyph.name,
-        codepoint: glyph.code,
-        stream:    fs.createReadStream(cwdto(glyph.glyph, cfgfile))
-    })
-})
-svgicons2svgfont(glyphs, {
+var stream = svgicons2svgfont({
     fontName:           cfg.font.name,
     normalize:          cfg.font.normalize,
     centerHorizontally: cfg.font.center,
@@ -98,7 +90,8 @@ svgicons2svgfont(glyphs, {
     fixedWidth:         cfg.font.fixedwidth,
     log:                function () {},
     error:              function (err) { console.log("** ERROR: " + err) }
-}).pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function () {
+})
+stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function () {
 
     /*  generate TTF font  */
     var ttftmp = null
@@ -210,5 +203,17 @@ svgicons2svgfont(glyphs, {
         html += "</html>\n"
         fs.writeFileSync(cwdto(cfg.font.html, cfgfile), html, "utf8")
     }
+}).on("error", function (err) {
+    console.error("glyphs2font: ERROR: " + err)
+    process.exit(1)
 })
+cfg.glyphs.forEach(function (glyph) {
+    var gstream = fs.createReadStream(cwdto(glyph.glyph, cfgfile))
+    gstream.metadata = {
+        name:      glyph.name,
+        unicode:   [ String.fromCharCode(glyph.code) ]
+    }
+    stream.write(gstream)
+})
+stream.end()
 
