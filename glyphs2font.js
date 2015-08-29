@@ -215,5 +215,18 @@ cfg.glyphs.forEach(function (glyph) {
     }
     stream.write(gstream)
 })
+if (cfg.glyphs.length <= 1) {
+    /*  ugly workaround for at least Chrome/Opera (Blink engine) browsers:
+        generate a font with at least 2 glyphs are the font will be silently rejected  */
+    var gstream
+    for (var i = 0; i <= cfg.glyphs.length; i++) {
+        gstream = fs.createReadStream(path.join(__dirname, "empty-glyph.svg"))
+        gstream.metadata = {
+            name:      "EMPTY" + i,
+            unicode:   [ String.fromCharCode(0xF8FF - i) ]
+        }
+        stream.write(gstream)
+    }
+}
 stream.end()
 
