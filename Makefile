@@ -39,6 +39,3 @@ clean: bootstrap
 distclean: bootstrap
 	@$(GRUNT) clean:clean clean:distclean
 
-test:
-	@$(GRUNT) test
-
