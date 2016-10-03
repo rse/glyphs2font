@@ -22,10 +22,10 @@
         "glyphs2font": "./glyphs2font.js"
     },
     "dependencies": {
-        "js-yaml":              "~3.6.0",
-        "tmp":                  "~0.0.28",
+        "js-yaml":              "~3.6.1",
+        "tmp":                  "~0.0.29",
         "svgicons2svgfont":     "~5.0.0",
-        "svg2ttf":              "~4.0.0",
+        "svg2ttf":              "~4.0.2",
         "ttf2woff":             "~2.0.1",
         "ttf2eot":              "~2.0.0"
     },
