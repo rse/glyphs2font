@@ -22,8 +22,8 @@
         "glyphs2font": "./glyphs2font.js"
     },
     "dependencies": {
-        "js-yaml":              "~3.6.1",
-        "tmp":                  "~0.0.29",
+        "js-yaml":              "~3.7.0",
+        "tmp":                  "~0.0.31",
         "svgicons2svgfont":     "~5.0.0",
         "svg2ttf":              "~4.0.2",
         "ttf2woff":             "~2.0.1",
@@ -32,7 +32,7 @@
     "devDependencies": {
         "grunt":                "~1.0.1",
         "grunt-cli":            "~1.2.0",
-        "grunt-contrib-jshint": "~1.0.0",
+        "grunt-contrib-jshint": "~1.1.0",
         "grunt-contrib-clean":  "~1.0.0"
     }
 }
