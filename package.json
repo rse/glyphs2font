@@ -1,6 +1,6 @@
 {
     "name":        "glyphs2font",
-    "version":     "1.1.4",
+    "version":     "1.1.5",
     "description": "SVG Glyph Icons to Web Font Generation",
     "keywords":    [ "svg", "glyph", "icon", "font", "cli" ],
     "repository": {
