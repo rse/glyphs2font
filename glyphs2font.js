@@ -80,7 +80,7 @@ if (!svgfile) {
     svgtmp = tmp.fileSync()
     svgfile = svgtmp.name
 }
-var stream = svgicons2svgfont({
+var stream = new svgicons2svgfont({
     fontName:           cfg.font.name,
     normalize:          cfg.font.normalize,
     centerHorizontally: cfg.font.center,
