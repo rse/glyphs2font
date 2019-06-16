@@ -101,18 +101,18 @@ stream.pipe(fs.createWriteStream(cwdto(svgfile, cfgfile))).on("finish", function
         ttffile = ttftmp.name
     }
     var ttf = svg2ttf(fs.readFileSync(svgfile, "utf8"), {})
-    fs.writeFileSync(cwdto(ttffile, cfgfile), new Buffer(ttf.buffer))
+    fs.writeFileSync(cwdto(ttffile, cfgfile), Buffer.from(ttf.buffer))
 
     /*  generate EOT font  */
     if (cfg.font.eot) {
         var eot = ttf2eot(new Uint8Array(fs.readFileSync(ttffile)), {})
-        fs.writeFileSync(cwdto(cfg.font.eot, cfgfile), new Buffer(eot.buffer))
+        fs.writeFileSync(cwdto(cfg.font.eot, cfgfile), Buffer.from(eot.buffer))
     }
 
     /*  generate WOFF font  */
     if (cfg.font.woff) {
         var woff = ttf2woff(new Uint8Array(fs.readFileSync(ttffile)), {})
-        fs.writeFileSync(cwdto(cfg.font.woff, cfgfile), new Buffer(woff.buffer))
+        fs.writeFileSync(cwdto(cfg.font.woff, cfgfile), Buffer.from(woff.buffer))
     }
 
     /*  generate CSS stylesheet  */
