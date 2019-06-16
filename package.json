@@ -24,8 +24,8 @@
     "dependencies": {
         "js-yaml":              "3.13.1",
         "tmp":                  "0.1.0",
-        "svgicons2svgfont":     "9.0.4",
-        "svg2ttf":              "4.2.0",
+        "svgicons2svgfont":     "9.1.1",
+        "svg2ttf":              "4.3.0",
         "ttf2woff":             "2.0.1",
         "ttf2eot":              "2.0.0"
     },
