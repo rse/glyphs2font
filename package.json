@@ -23,7 +23,7 @@
     },
     "dependencies": {
         "js-yaml":              "4.1.0",
-        "tmp":                  "0.2.1",
+        "tmp":                  "0.2.4",
         "svgicons2svgfont":     "10.0.6",
         "svg2ttf":              "6.0.3",
         "ttf2woff":             "3.0.0",
